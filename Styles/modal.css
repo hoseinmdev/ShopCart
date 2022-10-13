@@ -1,0 +1,83 @@
+:root {
+  --primaryColor: #6d28d9;
+  --secondaryColor: #ede9fe;
+  --mainWhite: #ede9fe;
+  --mainBlack: #222;
+  --mainGray: #7c7c7c;
+  --mainRed: #db2777;
+  --bodyColor: #0f172a;
+  --bodyColorLightMode: #f1f5f9;
+}
+
+.backdrop{
+    width: 100%;
+    height: 100%;
+    background-color: #0f172a;
+    position: fixed;
+    opacity: 0.5;
+    display: none;
+    transition: all 0.3s;
+}
+.modal-block{
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    background-color: white;
+    position: fixed;
+    border-radius: 10px;
+    transform: translateY(-150rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+.showModal{
+    transform: translateY(15rem);
+}
+.showBackdrop{
+    display: block;
+}
+.modal-block p{
+    color: #0f172a;
+}
+.modal-block div{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1rem;
+}
+.modal-block div button{
+    padding: 0.3rem 1rem;
+}
+.product-block{
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 0.5rem;
+}
+.product-block div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+.product-blocks{
+    display: flex;
+    flex-direction: column;
+}
+.modal-block img{
+    width: 8rem;
+    height: 4rem;
+}
+
+.fa-minus{
+    color: red;
+}
+.fa-trash-alt{
+    color: #0f172a;
+    transition: all 0.2s;
+}
+.fa-trash-alt:hover{
+    color: red;
+}
