@@ -32,39 +32,48 @@ class UI {
       productsDOM.appendChild(productMaker);
     });
   }
-  addToCartButton() {
+  addToCartButton(cart) {
+    // let cartStorage = localStorage.
     const button = document.querySelectorAll(".cart-btn");
     const buttonArray = [...button];
     buttonArray.forEach((btn) => {
+      const id = btn.dataset.id
       btn.addEventListener("click", () => {
+        cart.push(id)
+        console.log(cart)
         btn.innerText = "- IS IN CART -";
         btn.disabled = true;
-        Storage.addProductToCart(btn.dataset.id);
+        counter.innerText = cart.length
+        localStorage.setItem("cart" , cart)
+        // Storage.addProductToCart(id);
       });
     });
   }
 }
 class Storage {
   static saveProducts(productsData) {
-    let savedProducts = localStorage.setItem(
+    let products = localStorage.setItem(
       "products",
       JSON.stringify(productsData)
     );
   }
   static getProducts() {
-    let getProducts = localStorage.getItem("products");
+    let products = JSON.parse(localStorage.getItem("products"));
+    return products
   }
-  static saveProductsToCart() {
-    let savedCart = localStorage.setItem("cart", JSON.stringify([]));
+  static cart() {
+    let cart = localStorage.setItem("cart", JSON.stringify([]));
+    return cart
   }
   static getCart() {
-    let getCart = localStorage.getItem("cart");
-    // console.log(getCart)
+    let cart = JSON.parse(localStorage.getItem("cart"))
+    return cart
   }
-  static addProductToCart(products) {
-    this.getCart();
-    console.log(products);
-  }
+  // static addProductToCart(id) {
+  //   const cart = JSON.parse(localStorage.getItem("cart"));
+  //   cart.push(id)
+  //   console.log(cart)
+  // }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -73,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const showProducts = ui.showProducts(productsData);
   Storage.getProducts();
-  Storage.saveProductsToCart(productsData);
+  Storage.cart(productsData);
   Storage.getCart();
-  ui.addToCartButton();
+  ui.addToCartButton(JSON.parse(localStorage.getItem("cart")));
 });
 
 function showModal() {
