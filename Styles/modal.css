@@ -49,22 +49,21 @@
 .modal-block div button{
     padding: 0.3rem 1rem;
 }
-.product-block{
+.products-block{
     font-size: 1rem;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 2rem;
     margin-bottom: 0.5rem;
 }
-.product-block div{
+
+.products-block span{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-}
-.product-blocks{
-    display: flex;
-    flex-direction: column;
 }
 .modal-block img{
     width: 8rem;
