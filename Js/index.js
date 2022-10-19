@@ -15,8 +15,16 @@ class Products {
   }
 }
 class UI {
+  // this method just get listeners id , then send id's for AddToCart method
+  addToCartBtnListener() {
+    const button = document.querySelectorAll(".cart-btn");
+    const buttons = [...button];
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", (e) => this.addToCart(e.target.dataset.id));
+    });
+  }
   showProducts(productsData) {
-    Storage.saveProducts(productsData);
+    productsDOM.innerHTML = "";
     productsData.forEach((item) => {
       let result = "";
       const productMaker = document.createElement("div");
@@ -26,15 +34,17 @@ class UI {
           <span>${item.title}</span>
           <span>${item.price}</span>
         </div>
-        <button class="cart-btn" data-id=${item.id}>${
-        item.inCart ? `is in cart` : `add to cart`
+        <button class="cart-btn" data-id=${item.id} ${item.inCart ? `disabled` : ""}>${
+        item.inCart ? `is in cart` : `Add to cart`
       }</button>
       </div>`;
       productMaker.innerHTML = result;
       productsDOM.appendChild(productMaker);
     });
+    this.addToCartBtnListener();
   }
   showCart(cart) {
+    cartDOM.innerHTML = ''
     cart.forEach((item) => {
       const productMaker = document.createElement("div");
       let result = "";
@@ -59,45 +69,15 @@ class UI {
       });
     });
   }
-  addToCartButton() {
-    const productsData = JSON.parse(localStorage.getItem("products"));
-    const button = document.querySelectorAll(".cart-btn");
-    const buttonArray = [...button];
-
-    buttonArray.forEach((btn) => {
-      const id = btn.dataset.id;
-      btn.addEventListener("click", () => {
-        const selectedCart = productsData.find(
-          (item) => JSON.parse(item.id) === JSON.parse(id)
-        );
-        selectedCart.inCart = true;
-        selectedCart.quantity = 1;
-        const filterProduct = productsData.filter((item) => {
-          item.id === selectedCart.id;
-          return item;
-        });
-        btn.innerText = selectedCart ? "is in cart" : "Add to cart";
-        localStorage.setItem("products", JSON.stringify(filterProduct));
-        Storage.cart(Storage.getProducts());
-        btn.disabled = true;
-        cartDOM.innerHTML = "";
-        counter.innerText = Storage.getCart().length;
-        this.showCart(Storage.getCart());
-      });
-    });
+  reloadDom() {
+    const products = Storage.getProducts();
+    const cart = Storage.getCart();
+    this.showProducts(products);
+    this.showCart(cart);
   }
-  clearCart(products) {
-    clearBtn.addEventListener("click", () => {
-      localStorage.setItem("products", JSON.stringify(products));
-      localStorage.setItem("cart", JSON.stringify([]));
-      const button = document.querySelectorAll(".cart-btn");
-      const buttonArray = [...button];
-      buttonArray.forEach(item => ()=>{
-        item.innerText = "Add to cart"
-        item.disabled = false
-      })
-      cartDOM.innerHTML = "";
-    });
+  addToCart(e) {
+    Storage.addProductToCart(e);
+    this.reloadDom();
   }
 }
 class Storage {
@@ -107,16 +87,42 @@ class Storage {
       JSON.stringify(productsData)
     );
   }
+  // Products
+  static setProducts(products) {
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+  static clearCart(){
+    const products = this.getProducts()
+    const newProducts = products.map(item => {
+      delete item.inCart
+      delete item.quantity
+      return item
+    })
+    this.setProducts(newProducts)
+    this.setCart([])
+  }
+  static addProductToCart(id) {
+    const products = Storage.getProducts();
+    const cart = Storage.getCart();
+    const newProducts = products.map((item) => {
+      if (parseInt(item.id) === parseInt(id)) {
+        item.inCart = true;
+        item.quantity = 1;
+        cart.push(item);
+        counter.innerText = cart.length;
+      }
+      return item;
+    });
+    this.setProducts(newProducts);
+    this.setCart(cart);
+  }
   static getProducts() {
     let products = JSON.parse(localStorage.getItem("products"));
     return products;
   }
-  static cart(products) {
-    let filterCart = products.filter((item) => {
-      if (item.inCart === true) return item;
-    });
-    const cart = localStorage.setItem("cart", JSON.stringify(filterCart));
-    return cart;
+  // Cart
+  static setCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
   static getCart() {
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -130,13 +136,23 @@ document.addEventListener("DOMContentLoaded", () => {
     ? Storage.getProducts()
     : products.getProducts();
   const ui = new UI();
+  Storage.setProducts(productsData);
   ui.showProducts(productsData);
-  ui.addToCartButton(Storage.getCart());
+
+  clearBtn.addEventListener("click" , ()=>{
+    Storage.clearCart()
+    cartDOM.innerHTML = ""
+    // ui.showProducts(Storage.getProducts())
+    closeModal()
+    ui.reloadDom()
+    counter.innerText = Storage.getCart().length
+    totalPriceP.innerText = ""
+  })
+  
   const cartData = Storage.getCart()
     ? Storage.getCart()
     : localStorage.setItem("cart", JSON.stringify([]));
   ui.showCart(cartData);
-  ui.clearCart(products.getProducts());
   counter.innerText = Storage.getCart().length;
 });
 
