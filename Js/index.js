@@ -15,12 +15,33 @@ class Products {
   }
 }
 class UI {
-  // this method just get listeners id , then send id's for AddToCart method
+  increaseProductBtnListener() {
+    const increaseBtn = document.querySelectorAll(".fa-plus");
+    const increaseBtns = [...increaseBtn];
+    increaseBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) =>
+        this.increaseProduct(e.target.dataset.id)
+      );
+    });
+  }
+  // this method just get delProduct button listeners id , then send id's for delProduct method
+  deleteProductBtnListener() {
+    const delProductBtn = document.querySelectorAll(".fa-trash-alt");
+    const delProductBtns = [...delProductBtn];
+    delProductBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) =>
+        this.delProduct(e.target.dataset.id)
+      );
+    });
+  }
+  // this method just get addToCart button listener id , then send id's for AddToCart method
   addToCartBtnListener() {
     const button = document.querySelectorAll(".cart-btn");
     const buttons = [...button];
     buttons.forEach((btn) => {
-      btn.addEventListener("click", (e) => this.addToCart(e.target.dataset.id));
+      btn.addEventListener("click", (e) => {
+        this.addToCart(e.target.dataset.id);
+      });
     });
   }
   showProducts(productsData) {
@@ -34,9 +55,9 @@ class UI {
           <span>${item.title}</span>
           <span>${item.price}</span>
         </div>
-        <button class="cart-btn" data-id=${item.id} ${item.inCart ? `disabled` : ""}>${
-        item.inCart ? `is in cart` : `Add to cart`
-      }</button>
+        <button class="cart-btn" data-id=${item.id} ${
+        item.inCart ? `disabled` : ""
+      }>${item.inCart ? `is in cart` : `Add to cart`}</button>
       </div>`;
       productMaker.innerHTML = result;
       productsDOM.appendChild(productMaker);
@@ -44,14 +65,14 @@ class UI {
     this.addToCartBtnListener();
   }
   showCart(cart) {
-    cartDOM.innerHTML = ''
+    cartDOM.innerHTML = "";
     cart.forEach((item) => {
       const productMaker = document.createElement("div");
       let result = "";
       result += `<i class="far fa-trash-alt" data-id=${item.id}></i>
             <span>
               <i class="fa-solid fa-plus" data-id=${item.id}></i>
-              <p>1</p>
+              <p>${item.quantity}</p>
               <i class="fa-solid fa-minus" data-id=${item.id}></i>
             </span>
             <span>
@@ -67,6 +88,8 @@ class UI {
         price += item.price;
         totalPriceP.innerText = "Total price is : $" + price;
       });
+      this.deleteProductBtnListener();
+      this.increaseProductBtnListener();
     });
   }
   reloadDom() {
@@ -77,6 +100,14 @@ class UI {
   }
   addToCart(e) {
     Storage.addProductToCart(e);
+    this.reloadDom();
+  }
+  increaseProduct(e) {
+    Storage.increaseProductFromCart(e)
+    this.reloadDom();
+  }
+  delProduct(e) {
+    Storage.delProductFromCart(e);
     this.reloadDom();
   }
 }
@@ -91,15 +122,15 @@ class Storage {
   static setProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
   }
-  static clearCart(){
-    const products = this.getProducts()
-    const newProducts = products.map(item => {
-      delete item.inCart
-      delete item.quantity
-      return item
-    })
-    this.setProducts(newProducts)
-    this.setCart([])
+  static clearCart() {
+    const products = this.getProducts();
+    const newProducts = products.map((item) => {
+      delete item.inCart;
+      delete item.quantity;
+      return item;
+    });
+    this.setProducts(newProducts);
+    this.setCart([]);
   }
   static addProductToCart(id) {
     const products = Storage.getProducts();
@@ -121,6 +152,32 @@ class Storage {
     return products;
   }
   // Cart
+  static increaseProductFromCart(id) {
+    const cart = this.getCart();
+    const newCart = cart.map((item) => {
+      if(parseInt(item.id) === parseInt(id)) {
+        item.quantity++;
+      }
+      return item
+    });
+    Storage.setCart(newCart)
+  }
+  static delProductFromCart(id) {
+    const products = Storage.getProducts();
+    const cart = Storage.getCart();
+    const newProducts = products.map((item) => {
+      if (parseInt(item.id) === parseInt(id)) {
+        delete item.inCart;
+        delete item.quantity;
+      }
+      return item;
+    });
+    const newCart = cart.filter((item) => {
+      return parseInt(item.id) !== parseInt(id);
+    });
+    Storage.setProducts(newProducts);
+    Storage.setCart(newCart);
+  }
   static setCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
@@ -135,25 +192,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const productsData = Storage.getProducts()
     ? Storage.getProducts()
     : products.getProducts();
-  const ui = new UI();
   Storage.setProducts(productsData);
+  const ui = new UI();
   ui.showProducts(productsData);
-
-  clearBtn.addEventListener("click" , ()=>{
-    Storage.clearCart()
-    cartDOM.innerHTML = ""
-    // ui.showProducts(Storage.getProducts())
-    closeModal()
-    ui.reloadDom()
-    counter.innerText = Storage.getCart().length
-    totalPriceP.innerText = ""
-  })
-  
   const cartData = Storage.getCart()
     ? Storage.getCart()
     : localStorage.setItem("cart", JSON.stringify([]));
   ui.showCart(cartData);
   counter.innerText = Storage.getCart().length;
+
+  clearBtn.addEventListener("click", () => {
+    Storage.clearCart();
+    cartDOM.innerHTML = "";
+    closeModal();
+    ui.reloadDom();
+    counter.innerText = Storage.getCart().length;
+    totalPriceP.innerText = "";
+  });
 });
 
 function showModal() {
