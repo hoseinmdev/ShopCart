@@ -24,6 +24,15 @@ class UI {
       );
     });
   }
+  decreaseProductBtnLisrenet() {
+    const decreaseBtn = document.querySelectorAll(".fa-minus");
+    const decreaseBtns = [...decreaseBtn];
+    decreaseBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        this.decreaseProduct(e.target.dataset.id);
+      });
+    });
+  }
   // this method just get delProduct button listeners id , then send id's for delProduct method
   deleteProductBtnListener() {
     const delProductBtn = document.querySelectorAll(".fa-trash-alt");
@@ -82,6 +91,7 @@ class UI {
             <img src=${item.imageURL} alt="product-1" />`;
       productMaker.innerHTML = result;
       cartDOM.appendChild(productMaker);
+      this.decreaseProductBtnLisrenet()
       this.deleteProductBtnListener();
       this.increaseProductBtnListener();
       // TOTAL PRICE
@@ -103,8 +113,12 @@ class UI {
     this.reloadDom();
   }
   increaseProduct(e) {
-    Storage.increaseProductFromCart(e)
+    Storage.increaseProductFromCart(e);
     this.reloadDom();
+  }
+  decreaseProduct(e){
+    Storage.decreaseProductFromCart(e)
+    this.reloadDom()
   }
   delProduct(e) {
     Storage.delProductFromCart(e);
@@ -155,11 +169,25 @@ class Storage {
   static increaseProductFromCart(id) {
     const cart = this.getCart();
     const newCart = cart.map((item) => {
-      if(parseInt(item.id) === parseInt(id)) {
+      if (parseInt(item.id) === parseInt(id)) {
         item.quantity++;
       }
-      return item
+      return item;
     });
+    Storage.setCart(newCart);
+  }
+  static decreaseProductFromCart(id) {
+    const cart = Storage.getCart()
+    const newCart = cart.map(item => {
+      if (parseInt(item.id) === parseInt(id)) {
+        if (item.quantity > 1){
+          item.quantity--;
+        } else {
+          Storage.delProductFromCart(id);
+        }
+      }
+      return item
+    })
     Storage.setCart(newCart)
   }
   static delProductFromCart(id) {
