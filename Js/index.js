@@ -82,14 +82,14 @@ class UI {
             <img src=${item.imageURL} alt="product-1" />`;
       productMaker.innerHTML = result;
       cartDOM.appendChild(productMaker);
+      this.deleteProductBtnListener();
+      this.increaseProductBtnListener();
       // TOTAL PRICE
       let price = (totalPriceP.innerText = 0);
       cart.forEach((item) => {
-        price += item.price;
+        price += item.price * item.quantity;
         totalPriceP.innerText = "Total price is : $" + price;
       });
-      this.deleteProductBtnListener();
-      this.increaseProductBtnListener();
     });
   }
   reloadDom() {
