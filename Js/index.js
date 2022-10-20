@@ -59,14 +59,12 @@ class UI {
       let result = "";
       const productMaker = document.createElement("div");
       result += `<div class="cart-block">
-        <img src=${item.imageURL} alt="product-1" />
-        <div class="cart-block-price">
-          <span>${item.title}</span>
-          <span>${item.price}</span>
-        </div>
+        <img class="image-style" src=${item.imageURL} alt="product-1" />
+        <span>${item.title}</span>
         <button class="cart-btn" data-id=${item.id} ${
         item.inCart ? `disabled` : ""
-      }>${item.inCart ? `is in cart` : `Add to cart`}</button>
+      }>${item.inCart ? `در سبد خرید` : `افزودن به سبد خرید`}</button>
+        <span>${item.price.toLocaleString("en")} تومان</span>
       </div>`;
       productMaker.innerHTML = result;
       productsDOM.appendChild(productMaker);
@@ -78,29 +76,35 @@ class UI {
     cart.forEach((item) => {
       const productMaker = document.createElement("div");
       let result = "";
-      result += `<i class="far fa-trash-alt" data-id=${item.id}></i>
-            <span>
-              <i class="fa-solid fa-plus" data-id=${item.id}></i>
-              <p>${item.quantity}</p>
-              <i class="fa-solid fa-minus" data-id=${item.id}></i>
-            </span>
-            <span>
-              <p>${item.title}</p>
-              <p>$${item.price}</p>
-            </span>
-            <img src=${item.imageURL} alt="product-1" />`;
+      result += `
+      <div>
+        <i class="far fa-trash-alt" data-id=${item.id}></i>
+        <span>
+          <i class="fa-solid fa-plus" data-id=${item.id}></i>
+          <p>${item.quantity}</p>
+          <i class="fa-solid fa-minus" data-id=${item.id}></i>
+        </span>
+        <span>
+          <p>${item.title}</p>
+          <p>${item.price.toLocaleString("en")} تومان</p>
+        </span>
+      </div>
+      </div>
+        <img class="image-styles" src=${item.imageURL} alt="product-1" />
+      </div>`;
       productMaker.innerHTML = result;
       cartDOM.appendChild(productMaker);
-      this.decreaseProductBtnLisrenet()
-      this.deleteProductBtnListener();
-      this.increaseProductBtnListener();
       // TOTAL PRICE
       let price = (totalPriceP.innerText = 0);
       cart.forEach((item) => {
         price += item.price * item.quantity;
-        totalPriceP.innerText = "Total price is : $" + price;
+        totalPriceP.innerText =
+          "قیمت کل : " + price.toLocaleString("en") + " تومان";
       });
     });
+    this.deleteProductBtnListener();
+    this.decreaseProductBtnLisrenet();
+    this.increaseProductBtnListener();
   }
   reloadDom() {
     const products = Storage.getProducts();
@@ -116,9 +120,9 @@ class UI {
     Storage.increaseProductFromCart(e);
     this.reloadDom();
   }
-  decreaseProduct(e){
-    Storage.decreaseProductFromCart(e)
-    this.reloadDom()
+  decreaseProduct(e) {
+    Storage.decreaseProductFromCart(e);
+    this.reloadDom();
   }
   delProduct(e) {
     Storage.delProductFromCart(e);
@@ -177,18 +181,20 @@ class Storage {
     Storage.setCart(newCart);
   }
   static decreaseProductFromCart(id) {
-    const cart = Storage.getCart()
-    const newCart = cart.map(item => {
+    const cart = Storage.getCart();
+    let shoudDelete = false;
+    const newCart = cart.map((item) => {
       if (parseInt(item.id) === parseInt(id)) {
-        if (item.quantity > 1){
+        if (item.quantity > 1) {
           item.quantity--;
         } else {
-          Storage.delProductFromCart(id);
+          shoudDelete = true;
         }
       }
-      return item
-    })
-    Storage.setCart(newCart)
+      return item;
+    });
+    Storage.setCart(newCart);
+    if (shoudDelete) Storage.delProductFromCart(id);
   }
   static delProductFromCart(id) {
     const products = Storage.getProducts();
@@ -205,6 +211,11 @@ class Storage {
     });
     Storage.setProducts(newProducts);
     Storage.setCart(newCart);
+    totalPriceP.innerText = "";
+    counter.innerText = Storage.getCart().length;
+    if (Storage.getCart().length === 0) {
+      closeModal();
+    }
   }
   static setCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -222,23 +233,24 @@ document.addEventListener("DOMContentLoaded", () => {
     : products.getProducts();
   Storage.setProducts(productsData);
   const ui = new UI();
-  ui.showProducts(productsData);
-  const cartData = Storage.getCart()
-    ? Storage.getCart()
-    : localStorage.setItem("cart", JSON.stringify([]));
-  ui.showCart(cartData);
-  counter.innerText = Storage.getCart().length;
 
   clearBtn.addEventListener("click", () => {
     Storage.clearCart();
     cartDOM.innerHTML = "";
     closeModal();
-    ui.reloadDom();
     counter.innerText = Storage.getCart().length;
     totalPriceP.innerText = "";
+    ui.reloadDom();
   });
+  ui.showProducts(productsData);
+  const cartData = Storage.getCart() ? Storage.getCart() : Storage.setCart([]);
+  ui.showCart(cartData);
+  counter.innerText = Storage.getCart().length;
 });
 
+function digits(number) {
+  console.log(number.toLocaleString("en"));
+}
 function showModal() {
   modal.classList.toggle("showModal");
   backDrop.classList.toggle("showBackdrop");
@@ -247,7 +259,7 @@ function closeModal() {
   modal.classList.remove("showModal");
   backDrop.classList.remove("showBackdrop");
 }
-
+digits(123454646567);
 cartIcon.addEventListener("click", showModal);
 confirmBtn.addEventListener("click", closeModal);
 backDrop.addEventListener("click", closeModal);
