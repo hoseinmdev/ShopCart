@@ -1,5 +1,6 @@
 @import url(../Styles/fonts.css);
 @import url(../Styles/modal.css);
+@import url(../Styles/notification.css);
 
 * {
     margin: 0;
@@ -28,31 +29,34 @@ header{
     color: var(--primaryColor);
     font-size: 1.5rem;
 }
-body{
-    background-color: #0f172a;
-}
-.image-style{
-    width: 100%;
-    height: 60%;
-}
 header i{
     cursor: pointer;
 }
 header p{
-    color: var(--mainBlack);
+    color: var(--bodyColor);
     font-size: 1rem;
+}
+body{
+    background-color: #0f172a;
+    /* align-items: center; */
+}
+.screen{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
 }
 button{
     cursor: pointer;
 }
-.carts-block{
+.products-block{
     display: flex;
     padding: 5rem;
     gap: 2rem;
     flex-wrap: wrap;
     justify-content: center;
 }
-.cart-block{
+.product-block{
     transition: all 0.2s ease-in-out;
     overflow: hidden;
     width: 12rem;
@@ -66,14 +70,10 @@ button{
     align-items: center;
     gap: 0.8rem;
 }
-.cart-block:hover{
+.product-block:hover{
     transform: scale(1.1);
 }
-.cart-block-price{
-    display: flex;
-    justify-content: space-around;
-}
-.cart-btn{
+.product-btn{
     font-weight: bold;
     background-color: var(--secondaryColor);
     color: var(--primaryColor);
@@ -83,30 +83,11 @@ button{
     width: 8rem;
     transition: all 0.2s ease-in-out;
 }
-.cart-btn:hover{
-    /* background-color: #0f172a; */
-    /* opacity: 0.8; */
-    color: #0f172a;
-}
 
-.cart-btn-confirm{
-    font-weight: bold;
-    background-color: var(--secondaryColor);
-    color: var(--primaryColor);
-    border: none;
-    border-radius: 5px;
-    padding: 0.3rem;
+.image-style{
+    width: 100%;
+    height: 60%;
 }
-.cart-btn-claer{
-    font-weight: bold;
-    background: none;
-    color: var(--primaryColor);
-    border: 1px solid var(--primaryColor);
-    border-radius: 5px;
-    padding: 0.3rem;
-}
-
-
 .counter{
     width: 1rem;
     height: 1rem;

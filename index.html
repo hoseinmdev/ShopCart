@@ -14,27 +14,26 @@
     <link rel="stylesheet" href="./Styles/style.css" />
     <title>Shop Cart</title>
   </head>
+  <div class="backdrop"></div>
+  <header>
+    <i class="fa-solid fa-cart-plus" id="cart-icon"></i>
+    <span class="counter"></span>
+    <p>فروشگاه عمو حسین</p>
+    <i class="fa-solid fa-bars"></i>
+  </header>
   <body>
-    <div class="backdrop"></div>
-    <header>
-      <i class="fa-solid fa-cart-plus" id="cart-icon"></i>
-      <span class="counter">0</span>
-      <p>فروشگاه عمو حسین</p>
-      <i class="fa-solid fa-bars"></i>
-
-      <div class="modal-block">
+    <div class="notification">سبد شما خالی است عزیز  :(</div>
+    <div class="products-block"></div>
+    <div class="screen">
+      <div class="cart-block">
         <p>سبد خرید شما</p>
-        <div class="products-block">
-        </div>
+        <div class="cart-products-block"></div>
         <p id="total-price"></p>
         <div>
           <button class="cart-btn-confirm" id="confirm-btn">بستن</button>
           <button class="cart-btn-claer">پاکسازی لیست</button>
         </div>
       </div>
-    </header>
-
-    <div class="carts-block">
     </div>
 
     <script type="module" src="./Js/index.js"></script>

@@ -1,0 +1,27 @@
+:root {
+  --primaryColor: #6d28d9;
+  --secondaryColor: #ede9fe;
+  --mainWhite: #ede9fe;
+  --mainBlack: #222;
+  --mainGray: #7c7c7c;
+  --mainRed: #db2777;
+  --bodyColor: #0f172a;
+  --bodyColorLightMode: #f1f5f9;
+}
+.notification {
+  /* opacity: 0; */
+  align-self: flex-end;
+  margin: 1rem;
+  transition: all 0.3s ease-in-out;
+  padding: 0.4rem 1rem;
+  background-color: var(--primaryColor);
+  color: var(--mainWhite);
+  border-radius: 8px;
+  border-right: 3px solid var(--mainWhite);
+  font-size: 1rem;
+  position: fixed;
+  right: -100rem;
+}
+.notificationShow {
+  right: 0.5rem;
+}

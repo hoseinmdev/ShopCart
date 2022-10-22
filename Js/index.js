@@ -2,11 +2,12 @@ const cartIcon = document.getElementById("cart-icon");
 const totalPriceP = document.getElementById("total-price");
 const confirmBtn = document.querySelector(".cart-btn-confirm");
 const clearBtn = document.querySelector(".cart-btn-claer");
-const modal = document.querySelector(".modal-block");
-const cartDOM = document.querySelector(".products-block");
+const modal = document.querySelector(".cart-block");
+const cartDOM = document.querySelector(".cart-products-block");
 const backDrop = document.querySelector(".backdrop");
-const productsDOM = document.querySelector(".carts-block");
+const productsDOM = document.querySelector(".products-block");
 const counter = document.querySelector(".counter");
+const notification = document.querySelector(".notification")
 import { productsData } from "./products.js";
 
 class Products {
@@ -33,7 +34,6 @@ class UI {
       });
     });
   }
-  // this method just get delProduct button listeners id , then send id's for delProduct method
   deleteProductBtnListener() {
     const delProductBtn = document.querySelectorAll(".fa-trash-alt");
     const delProductBtns = [...delProductBtn];
@@ -43,9 +43,8 @@ class UI {
       );
     });
   }
-  // this method just get addToCart button listener id , then send id's for AddToCart method
   addToCartBtnListener() {
-    const button = document.querySelectorAll(".cart-btn");
+    const button = document.querySelectorAll(".product-btn");
     const buttons = [...button];
     buttons.forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -58,10 +57,10 @@ class UI {
     productsData.forEach((item) => {
       let result = "";
       const productMaker = document.createElement("div");
-      result += `<div class="cart-block">
+      result += `<div class="product-block">
         <img class="image-style" src=${item.imageURL} alt="product-1" />
         <span>${item.title}</span>
-        <button class="cart-btn" data-id=${item.id} ${
+        <button class="product-btn" data-id=${item.id} ${
         item.inCart ? `disabled` : ""
       }>${item.inCart ? `در سبد خرید` : `افزودن به سبد خرید`}</button>
         <span>${item.price.toLocaleString("en")} تومان</span>
@@ -77,20 +76,20 @@ class UI {
       const productMaker = document.createElement("div");
       let result = "";
       result += `
-      <div>
-        <i class="far fa-trash-alt" data-id=${item.id}></i>
-        <span>
-          <i class="fa-solid fa-plus" data-id=${item.id}></i>
-          <p>${item.quantity}</p>
-          <i class="fa-solid fa-minus" data-id=${item.id}></i>
-        </span>
+      </div>
+        <img class="image-styles" src=${item.imageURL} alt="product-1" />
         <span>
           <p>${item.title}</p>
           <p>${item.price.toLocaleString("en")} تومان</p>
         </span>
       </div>
-      </div>
-        <img class="image-styles" src=${item.imageURL} alt="product-1" />
+      <div>
+        <span>
+          <i class="fa-solid fa-plus" data-id=${item.id}></i>
+          <p>${item.quantity}</p>
+          <i class="fa-solid fa-minus" data-id=${item.id}></i>
+        </span>
+        <i class="far fa-trash-alt" data-id=${item.id}></i>
       </div>`;
       productMaker.innerHTML = result;
       cartDOM.appendChild(productMaker);
@@ -136,7 +135,6 @@ class Storage {
       JSON.stringify(productsData)
     );
   }
-  // Products
   static setProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
   }
@@ -169,7 +167,6 @@ class Storage {
     let products = JSON.parse(localStorage.getItem("products"));
     return products;
   }
-  // Cart
   static increaseProductFromCart(id) {
     const cart = this.getCart();
     const newCart = cart.map((item) => {
@@ -248,18 +245,23 @@ document.addEventListener("DOMContentLoaded", () => {
   counter.innerText = Storage.getCart().length;
 });
 
-function digits(number) {
-  console.log(number.toLocaleString("en"));
-}
-function showModal() {
-  modal.classList.toggle("showModal");
-  backDrop.classList.toggle("showBackdrop");
+function showCart() {
+  const cart = Storage.getCart();
+  if (cart.length !== 0) {
+    modal.classList.toggle("showCart");
+    backDrop.classList.toggle("showBackdrop");
+  } else {
+    // cartDOM.innerText = "سبد شما خالی میباشد عزیز";
+    // modal.classList.toggle("showCart");
+    // backDrop.classList.toggle("showBackdrop");
+    notification.classList.toggle("notificationShow")
+    setTimeout(() => notification.classList.remove("notificationShow"), 2000);
+  }
 }
 function closeModal() {
-  modal.classList.remove("showModal");
+  modal.classList.remove("showCart");
   backDrop.classList.remove("showBackdrop");
 }
-digits(123454646567);
-cartIcon.addEventListener("click", showModal);
+cartIcon.addEventListener("click", showCart);
 confirmBtn.addEventListener("click", closeModal);
 backDrop.addEventListener("click", closeModal);
