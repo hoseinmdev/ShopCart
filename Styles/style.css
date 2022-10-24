@@ -9,7 +9,6 @@
   list-style: none;
   font-family: "Vazir";
 }
-
 :root {
   --primaryColor: #6d28d9;
   --secondaryColor: #ede9fe;
@@ -37,16 +36,20 @@ header p {
   font-size: 1rem;
 }
 body {
-  background-color: #0f172a;
+  background-color: var(--bodyColor);
+}
+h1 {
+  color: var(--bodyColor);
+  font-size: 2rem;
+}
+button {
+  cursor: pointer;
 }
 .screen {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-}
-button {
-  cursor: pointer;
 }
 .products-block {
   display: flex;
@@ -91,7 +94,24 @@ button {
   border-radius: 5px;
   padding: 0.3rem;
   width: 8rem;
+  transition: all 0.2s;
+}
+.product-btn:hover{
+  background-color: var(--primaryColor);
+  scale: 1;
+  color: var(--bodyColorLightMode);
+  font-weight: 100;
+}
+.inCart-btn {
+  background-color: var(--primaryColor);
+  color: var(--bodyColorLightMode);
+  border: none;
+  border-right: 3px solid var(--primaryColor);
+  border-radius: 5px;
+  padding: 0.3rem;
+  width: 6rem;
   transition: all 0.2s ease-in-out;
+  cursor: default;
 }
 
 .image-style {
@@ -99,18 +119,19 @@ button {
   height: 60%;
 }
 .counter {
-  width: 1rem;
-  height: 1rem;
-  font-size: 0.9rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  font-size: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
+
   border-radius: 100%;
   position: absolute;
-  margin-left: 61rem;
+  margin-left: 71.5%;
   margin-bottom: 1.2rem;
   color: var(--bodyColorLightMode);
-  background-color: #db2777;
+  background-color: var(--primaryColor);
 }
 .fa-cart-plus {
   transition: all 0.2s ease-in-out;
@@ -118,11 +139,6 @@ button {
 .fa-cart-plus:hover {
   transform: rotate(10deg);
   transform: scale(1.1);
-}
-
-h1 {
-  color: var(--bodyColor);
-  font-size: 2rem;
 }
 
 .product-info-block {
@@ -175,7 +191,7 @@ h1 {
   backface-visibility: hidden;
 }
 .flip-card-front {
-  color: black;
+  color: var(--bodyColor);
 }
 .flip-card-back {
   transform: rotateY(180deg);

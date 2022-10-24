@@ -8,6 +8,7 @@ const backDrop = document.querySelector(".backdrop");
 const productsDOM = document.querySelector(".products-block");
 const counter = document.querySelector(".counter");
 const notification = document.querySelector(".notification");
+const addToCartNotification = document.querySelector(".addToCart-notification");
 import { productsData } from "./products.js";
 
 class Products {
@@ -83,9 +84,11 @@ class UI {
               <img class="image-style" src=${item.imageURL} alt="product-1" />
               <span>${item.title}</span>
               <div>
-                <button class="product-btn" data-id=${item.id} ${
-        item.inCart ? `disabled` : ""
-      }>${item.inCart ? `در سبد خرید` : `افزودن به سبد خرید`}</button>
+                <button class=${
+                  item.inCart ? "inCart-btn" : "product-btn"
+                } data-id=${item.id} ${item.inCart ? `disabled` : ""}>${
+        item.inCart ? `در سبد خرید` : `افزودن به سبد خرید`
+      }</button>
                 <i class="fa-solid fa-circle-info" data-id=${item.id}></i>
               </div>
               <span>${item.price.toLocaleString("en")} تومان</span>
@@ -162,6 +165,12 @@ class UI {
   }
   addToCart(e) {
     Storage.addProductToCart(e);
+    addToCartNotification.classList.toggle("addToCart-notificationShow");
+    setTimeout(
+      () =>
+        addToCartNotification.classList.remove("addToCart-notificationShow"),
+      1500
+    );
     const cardInner = document.querySelectorAll(".flip-card-inner");
     const cardInners = [...cardInner];
     cardInners.forEach((item) => item.classList.remove("flip-card-enable"));
