@@ -7,7 +7,7 @@ const cartDOM = document.querySelector(".cart-products-block");
 const backDrop = document.querySelector(".backdrop");
 const productsDOM = document.querySelector(".products-block");
 const counter = document.querySelector(".counter");
-const notification = document.querySelector(".notification")
+const notification = document.querySelector(".notification");
 import { productsData } from "./products.js";
 
 class Products {
@@ -16,6 +16,24 @@ class Products {
   }
 }
 class UI {
+  infoProductBtnListener() {
+    const infoBtn = document.querySelectorAll(".fa-circle-info");
+    const infoBtns = [...infoBtn];
+    infoBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) =>
+        this.infoProduct(e.target.dataset.id)
+      );
+    });
+  }
+  backInfoProductBtnListener() {
+    const backBtn = document.querySelectorAll(".product-back-btn");
+    const backBtns = [...backBtn];
+    backBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) =>
+        this.backInfoProduct(e.target.dataset.id)
+      );
+    });
+  }
   increaseProductBtnListener() {
     const increaseBtn = document.querySelectorAll(".fa-plus");
     const increaseBtns = [...increaseBtn];
@@ -57,18 +75,49 @@ class UI {
     productsData.forEach((item) => {
       let result = "";
       const productMaker = document.createElement("div");
-      result += `<div class="product-block">
-        <img class="image-style" src=${item.imageURL} alt="product-1" />
-        <span>${item.title}</span>
-        <button class="product-btn" data-id=${item.id} ${
+      result += `
+      <div class="flip-card">
+        <div class="flip-card-inner" data-id=${item.id}>
+          <div class="flip-card-front">
+            <div class="product-block">
+              <img class="image-style" src=${item.imageURL} alt="product-1" />
+              <span>${item.title}</span>
+              <div>
+                <button class="product-btn" data-id=${item.id} ${
         item.inCart ? `disabled` : ""
       }>${item.inCart ? `در سبد خرید` : `افزودن به سبد خرید`}</button>
-        <span>${item.price.toLocaleString("en")} تومان</span>
+                <i class="fa-solid fa-circle-info" data-id=${item.id}></i>
+              </div>
+              <span>${item.price.toLocaleString("en")} تومان</span>
+            </div>
+          </div>
+          <div class="flip-card-back">
+            <div class="product-info-block">
+              <h4>⌯ ${item.title} ⌯</h4>
+              <hr>
+              <div>
+                <h3>مشخصات :</h3>
+                <p>${item.Specifications.ram}</p>
+                <p>${item.Specifications.storage}</p>
+                <p>${item.Specifications.camera}</p>
+                <p>${item.Specifications.battery}</p>
+                <p>${item.Specifications.speaker}</p>
+                <p>قیمت / ${item.price.toLocaleString("en")} تومان</p>
+              </div>
+            <div>
+              <button class="product-back-btn" data-id=${
+                item.id
+              }>بازگشت</button>
+            </div>
+          </div>
+        </div>
       </div>`;
       productMaker.innerHTML = result;
       productsDOM.appendChild(productMaker);
     });
     this.addToCartBtnListener();
+    this.infoProductBtnListener();
+    this.backInfoProductBtnListener();
   }
   showCart(cart) {
     cartDOM.innerHTML = "";
@@ -113,7 +162,10 @@ class UI {
   }
   addToCart(e) {
     Storage.addProductToCart(e);
-    this.reloadDom();
+    const cardInner = document.querySelectorAll(".flip-card-inner");
+    const cardInners = [...cardInner];
+    cardInners.forEach((item) => item.classList.remove("flip-card-enable"));
+    setTimeout(() => this.reloadDom(), 250);
   }
   increaseProduct(e) {
     Storage.increaseProductFromCart(e);
@@ -126,6 +178,24 @@ class UI {
   delProduct(e) {
     Storage.delProductFromCart(e);
     this.reloadDom();
+  }
+  infoProduct(id) {
+    const cardInner = document.querySelectorAll(".flip-card-inner");
+    const cardInners = [...cardInner];
+    cardInners.forEach((item) => {
+      if (item.dataset.id === id) {
+        item.classList.toggle("flip-card-enable");
+      }
+    });
+  }
+  backInfoProduct(id) {
+    const cardInner = document.querySelectorAll(".flip-card-inner");
+    const cardInners = [...cardInner];
+    cardInners.forEach((item) => {
+      if (item.dataset.id === id) {
+        item.classList.remove("flip-card-enable");
+      }
+    });
   }
 }
 class Storage {
@@ -250,11 +320,11 @@ function showCart() {
   if (cart.length !== 0) {
     modal.classList.toggle("showCart");
     backDrop.classList.toggle("showBackdrop");
+    const cardInner = document.querySelectorAll(".flip-card-inner");
+    const cardInners = [...cardInner];
+    cardInners.forEach((item) => item.classList.remove("flip-card-enable"));
   } else {
-    // cartDOM.innerText = "سبد شما خالی میباشد عزیز";
-    // modal.classList.toggle("showCart");
-    // backDrop.classList.toggle("showBackdrop");
-    notification.classList.toggle("notificationShow")
+    notification.classList.toggle("notificationShow");
     setTimeout(() => notification.classList.remove("notificationShow"), 2000);
   }
 }
