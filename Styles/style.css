@@ -19,6 +19,9 @@
   --bodyColor: #0f172a;
   --bodyColorLightMode: #f1f5f9;
 }
+html{
+  transition: 0.3s;
+}
 header {
   display: flex;
   justify-content: space-around;
@@ -32,10 +35,12 @@ header i {
   cursor: pointer;
 }
 header p {
+  transition: 0.3s;
   color: var(--bodyColor);
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 body {
+  transition: 0.3s;
   background-color: var(--bodyColor);
 }
 h1 {
@@ -51,6 +56,9 @@ button {
   display: flex;
   justify-content: center;
 }
+.blur {
+  filter: blur(5px);
+}
 .products-block {
   display: flex;
   padding: 5rem;
@@ -62,9 +70,9 @@ button {
   transition: all 0.2s ease-in-out;
   overflow: hidden;
   width: 13rem;
-  height: 18rem;
+  height: 18.5rem;
   padding: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   background-color: var(--bodyColorLightMode);
   border-radius: 10px;
   display: flex;
@@ -96,9 +104,8 @@ button {
   width: 8rem;
   transition: all 0.2s;
 }
-.product-btn:hover{
+.product-btn:hover {
   background-color: var(--primaryColor);
-  scale: 1;
   color: var(--bodyColorLightMode);
   font-weight: 100;
 }
@@ -125,7 +132,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-radius: 100%;
   position: absolute;
   margin-left: 71.5%;
@@ -133,6 +139,24 @@ button {
   color: var(--bodyColorLightMode);
   background-color: var(--primaryColor);
 }
+.fa-moon {
+  transition: 0.2s;
+  color: var(--primaryColor);
+}
+.fa-moon-hide {
+  display: none;
+}
+.fa-sun {
+  transition: 0.2s;
+  color: #22d3ee;
+  display: none;
+}
+.fa-sun-show {
+  transition: 0.2s;
+  color: #22d3ee;
+  display: block;
+}
+
 .fa-cart-plus {
   transition: all 0.2s ease-in-out;
 }
@@ -166,6 +190,12 @@ button {
   width: 8rem;
   transition: all 0.2s ease-in-out;
 }
+.product-back-btn:hover {
+  background-color: var(--primaryColor);
+  color: var(--bodyColorLightMode);
+  font-weight: 100;
+}
+
 .flip-card {
   width: 13rem;
   height: 18rem;
@@ -195,4 +225,43 @@ button {
 }
 .flip-card-back {
   transform: rotateY(180deg);
+}
+
+.lightMode body {
+  background-color: #e2e8f0;
+}
+.lightMode header {
+  background-color: #fafafa;
+}
+.lightMode .fa-cart-plus{
+  color: #0e7490;
+}
+.lightMode .counter{
+  background-color: #0e7490;
+}
+.lightMode .product-block {
+  background-color: #fafafa;
+}
+.lightMode .product-btn{
+  background-color: #cffafe;
+  color: #164e63;
+}
+.lightMode .product-btn:hover {
+  background-color: #164e63;
+  color: var(--bodyColorLightMode);
+}
+.lightMode .product-back-btn{
+  background-color: #cffafe;
+  color: #164e63;
+}
+.lightMode .product-back-btn:hover{
+  background-color: #164e63;
+  color: var(--bodyColorLightMode);
+}
+.lightMode .fa-circle-info{
+  color: #164e63;
+}
+.lightMode .inCart-btn{
+  background-color: #164e63;
+  border-right: 2px solid #164e63;
 }

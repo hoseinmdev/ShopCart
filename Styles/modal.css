@@ -8,109 +8,132 @@
   --bodyColor: #0f172a;
   --bodyColorLightMode: #f1f5f9;
 }
-.backdrop{
-    width: 100%;
-    height: 100%;
-    background-color: #0f172a;
-    position: fixed;
-    opacity: 0.5;
-    display: none;
-    transition: all 0.3s;
+.backdrop {
+  width: 100%;
+  height: 100%;
+  background-color: #0f172a;
+  position: fixed;
+  opacity: 0.5;
+  display: none;
+  transition: all 0.3s;
+}
+.cart-block {
+  max-width: 27rem;
+  max-height: 29rem;
+  transition: all 0.4s;
+  background-color: white;
+  position: fixed;
+  border-radius: 10px;
+  transform: translateY(-150rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 2rem;
+}
+.cart-block div {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1rem;
+}
+.cart-block div button {
+  padding: 0.3rem 1rem;
+}
+.cart-block i {
+  cursor: pointer;
+}
+.cart-block img {
+  width: 24%;
+  height: 5.5rem;
 }
 
-.cart-block{
-    max-width: 27rem;
-    max-height: 29rem;
-    transition: all 0.4s;
-    background-color: white;
-    position: fixed;
-    border-radius: 10px;
-    transform: translateY(-150rem);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    gap: 2rem;
-}
-.cart-block i{
-    cursor: pointer;
-}
-/* width */
 ::-webkit-scrollbar {
   width: 10px;
 }
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--mainGray);
   border-radius: 15px;
 }
-.cart-block div{
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    font-size: 1rem;
+
+.cart-products-block {
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-.cart-block div button{
-    padding: 0.3rem 1rem;
+.cart-products-block div {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
 }
-.cart-block img{
-    width: 24%;
-    height: 5.5rem;
+.cart-products-block span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 3;
 }
 
-.cart-products-block{
-    overflow: auto;
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 0.5rem;
-    margin-bottom: 0.5rem;
+.cart-btn-confirm {
+  transition: 0.3s;
+  font-weight: bold;
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
+  border: none;
+  border-radius: 5px;
+  padding: 0.3rem;
 }
-.cart-products-block div{
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
+.cart-btn-confirm:hover {
+  background-color: var(--primaryColor);
+  color: var(--bodyColorLightMode);
 }
-.cart-products-block span{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    flex: 3;
+.cart-btn-claer {
+  font-weight: bold;
+  background: none;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 5px;
+  padding: 0.3rem;
+  transition: 0.3s;
 }
-
-.cart-btn-confirm{
-    font-weight: bold;
-    background-color: var(--secondaryColor);
-    color: var(--primaryColor);
-    border: none;
-    border-radius: 5px;
-    padding: 0.3rem;
-}
-.cart-btn-claer{
-    font-weight: bold;
-    background: none;
-    color: var(--primaryColor);
-    border: 1px solid var(--primaryColor);
-    border-radius: 5px;
-    padding: 0.3rem;
+.cart-btn-claer:hover {
+  color: var(--bodyColorLightMode);
+  background-color: #dc2626;
 }
 
+.showCart {
+  transform: translateY(-45rem);
+  z-index: 2;
+}
+.showBackdrop {
+  display: flex;
+  z-index: 1;
+}
+.fa-minus {
+  color: var(--mainRed);
+}
+.fa-plus {
+  color: var(--primaryColor);
+}
+.fa-trash-alt {
+  color: var(--bodyColor);
+  transition: all 0.2s;
+}
+.fa-trash-alt:hover {
+  color: var(--mainRed);
+}
 
-.showCart{
-    transform: translateY(-45rem);
-    z-index: 2;
+
+.lightMode .fa-plus {
+  color: #164e63;
 }
-.showBackdrop{
-    display: flex;
-    z-index: 1 ;
+.lightMode .cart-btn-confirm {
+  background-color: #cffafe;
+  color: #164e63;
 }
-.fa-minus{
-    color: red;
-}
-.fa-trash-alt{
-    color: #0f172a;
-    transition: all 0.2s;
-}
-.fa-trash-alt:hover{
-    color: red;
+.lightMode .cart-btn-confirm:hover {
+  background-color: #164e63;
+  color: var(--bodyColorLightMode);
 }

@@ -9,6 +9,13 @@ const productsDOM = document.querySelector(".products-block");
 const counter = document.querySelector(".counter");
 const notification = document.querySelector(".notification");
 const addToCartNotification = document.querySelector(".addToCart-notification");
+const cartClearedNotification = document.querySelector(
+  ".cartCleared-notification"
+);
+const sunIcon = document.querySelector(".fa-sun");
+const moonIcon = document.querySelector(".fa-moon");
+const html = document.querySelector("html");
+
 import { productsData } from "./products.js";
 
 class Products {
@@ -313,10 +320,18 @@ document.addEventListener("DOMContentLoaded", () => {
   clearBtn.addEventListener("click", () => {
     Storage.clearCart();
     cartDOM.innerHTML = "";
-    closeModal();
     counter.innerText = Storage.getCart().length;
     totalPriceP.innerText = "";
     ui.reloadDom();
+    closeModal();
+    cartClearedNotification.classList.toggle("cartCleared-notificationShow");
+    setTimeout(
+      () =>
+        cartClearedNotification.classList.remove(
+          "cartCleared-notificationShow"
+        ),
+      2000
+    );
   });
   ui.showProducts(productsData);
   const cartData = Storage.getCart() ? Storage.getCart() : Storage.setCart([]);
@@ -341,6 +356,23 @@ function closeModal() {
   modal.classList.remove("showCart");
   backDrop.classList.remove("showBackdrop");
 }
+function changeModeToLight() {
+  html.classList.toggle("lightMode");
+  moonIcon.classList.toggle("fa-moon-hide");
+  sunIcon.classList.toggle("fa-sun-show");
+  html.classList.toggle("blur");
+  setTimeout(() => html.classList.remove("blur"), 150);
+}
+function changeModeToDark() {
+  html.classList.remove("lightMode");
+  moonIcon.classList.remove("fa-moon-hide");
+  sunIcon.classList.remove("fa-sun-show");
+  html.classList.toggle("blur");
+  setTimeout(() => html.classList.remove("blur"), 150);
+}
+
 cartIcon.addEventListener("click", showCart);
 confirmBtn.addEventListener("click", closeModal);
 backDrop.addEventListener("click", closeModal);
+moonIcon.addEventListener("click", changeModeToLight);
+sunIcon.addEventListener("click", changeModeToDark);

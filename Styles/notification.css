@@ -14,9 +14,9 @@
   transition: right 0.2s ease-in-out;
   padding: 0.4rem 1rem;
   background-color: var(--primaryColor);
-  color: var(--mainWhite);
+  color: var(--bodyColorLightMode);
   border-radius: 8px;
-  border-right: 3px solid var(--mainWhite);
+  border-right: 3px solid var(--bodyColorLightMode);
   font-size: 1rem;
   position: fixed;
   right: -100rem;
@@ -24,6 +24,9 @@
 }
 .notificationShow {
   right: 0.5rem;
+}
+.lightMode .notification{
+  background-color: #164e63;
 }
 
 
@@ -43,4 +46,28 @@
 }
 .addToCart-notificationShow {
   right: 0.5rem;
+}
+.lightMode .addToCart-notificationShow{
+  background-color: #164e63;
+}
+
+.cartCleared-notification {
+  align-self: flex-end;
+  margin: 1rem;
+  transition: all 0.4s ease-in-out;
+  padding: 0.4rem 1.5rem;
+  background-color: #dc2626;
+  color: var(--mainWhite);
+  border-radius: 8px;
+  border-right: 3px solid var(--mainBlack);
+  font-size: 1rem;
+  position: fixed;
+  right: -100rem;
+  z-index: 4;
+}
+.cartCleared-notificationShow {
+  right: 0.5rem;
+}
+.lightMode .cartCleared-notificationShow{
+  border-right: 3px solid var(--bodyColorLightMode);
 }
