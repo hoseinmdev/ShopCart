@@ -268,4 +268,7 @@ button {
   .counter{
     margin-right: -2.5rem;
   }
+  .product-block h4 {
+    font-size: 0.9rem;
+  }
 }

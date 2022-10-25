@@ -151,7 +151,7 @@
 @media only screen and (max-width: 1024px) {
   .cart-block {
     max-width: 14rem;
-    max-height: 13rem;
+    max-height: 27rem;
     gap: 0.5rem;
   }
   .cart-block div {
@@ -166,7 +166,7 @@
     height: 2.5rem;
   }
   .showCart {
-    top: 5rem;
+    top: 7rem;
     z-index: 2;
   }
   .cart-btn-confirm {
@@ -182,7 +182,4 @@
   .fa-trash-alt {
     font-size: 0.7rem;
   }
-  /* .screen{
-    height: 1px;
-  } */
 }
