@@ -6,6 +6,7 @@ const modal = document.querySelector(".cart-block");
 const cartDOM = document.querySelector(".cart-products-block");
 const backDrop = document.querySelector(".backdrop");
 const productsDOM = document.querySelector(".products-block");
+const productBlock = document.querySelector(".product-block");
 const counter = document.querySelector(".counter");
 const notification = document.querySelector(".notification");
 const addToCartNotification = document.querySelector(".addToCart-notification");
@@ -89,7 +90,7 @@ class UI {
           <div class="flip-card-front">
             <div class="product-block">
               <img class="image-style" src=${item.imageURL} alt="product-1" />
-              <span>${item.title}</span>
+              <h4>${item.title}</h4>
               <div>
                 <button class=${
                   item.inCart ? "inCart-btn" : "product-btn"
@@ -98,7 +99,7 @@ class UI {
       }</button>
                 <i class="fa-solid fa-circle-info" data-id=${item.id}></i>
               </div>
-              <span>${item.price.toLocaleString("en")} تومان</span>
+              <h4>${item.price.toLocaleString("en")} تومان</h4>
             </div>
           </div>
           <div class="flip-card-back">
@@ -180,6 +181,12 @@ class UI {
     );
     const cardInner = document.querySelectorAll(".flip-card-inner");
     const cardInners = [...cardInner];
+    cardInners.forEach((item) => {
+      if (item.dataset.id === e) {
+        item.classList.toggle("scale");
+        setTimeout(() => item.classList.remove("scale"), 100);
+      }
+    });
     cardInners.forEach((item) => item.classList.remove("flip-card-enable"));
     setTimeout(() => this.reloadDom(), 250);
   }

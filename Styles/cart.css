@@ -19,7 +19,6 @@
 }
 .cart-block {
   max-width: 27rem;
-  max-height: 29rem;
   transition: all 0.4s;
   background-color: white;
   position: fixed;
@@ -57,11 +56,17 @@
 }
 
 .cart-products-block {
-  overflow: auto;
+  max-height: 15rem;
+  overflow-y: auto;
+  padding: 0.8rem;
   display: flex;
   flex-wrap: wrap;
   padding-left: 0.5rem;
   margin-bottom: 0.5rem;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+}
+.cart-products-block::-webkit-scrollbar {
+  width: 5px;
 }
 .cart-products-block div {
   display: flex;
@@ -124,7 +129,6 @@
 .fa-trash-alt:hover {
   color: var(--mainRed);
 }
-
 
 .lightMode .fa-plus {
   color: #164e63;

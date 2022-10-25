@@ -1,5 +1,5 @@
 @import url(../Styles/fonts.css);
-@import url(../Styles/modal.css);
+@import url(../Styles/cart.css);
 @import url(../Styles/notification.css);
 
 * {
@@ -57,7 +57,7 @@ button {
   justify-content: center;
 }
 .blur {
-  filter: blur(5px);
+  filter: blur(3px);
 }
 .products-block {
   display: flex;
@@ -79,6 +79,9 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
+}
+.scale{
+  scale: 1.1;
 }
 .product-block div {
   display: flex;
